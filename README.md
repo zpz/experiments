@@ -1,4 +1,2 @@
-Python-C++ inter-op.
+Experiments related to inter-operating Python with other languages.
 
-There are a few blog posts about using `pybind11` to integrate Python and C++
-at [zpz.github.io](http://zpz.github.io).
