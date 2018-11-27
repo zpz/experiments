@@ -1,7 +1,7 @@
 import time
 
-from py4cc.py4cc_1 import Driver
-from py4cc.tests.common import do_threads
+from pyx.cpp.cpp_1 import Driver
+from .common import do_threads
 
 
 def do_one_thread(driver, data, results, idx_from, idx_to):
@@ -30,7 +30,7 @@ def do_one_thread(driver, data, results, idx_from, idx_to):
                 break
 
 
-if __name__ == '__main__':
+def test():
     do_threads(Driver, do_one_thread)
 
 

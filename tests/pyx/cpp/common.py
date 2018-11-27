@@ -4,7 +4,7 @@ import time
 from faker import Faker
 import numpy as np
 
-from py4cc.common import big_model
+from pyx.cpp.common import big_model
 
 
 rnd_seed = 3333
@@ -33,7 +33,7 @@ def makedata():
 
 
 def make_driver(driver_cls):
-    driver = driver_cls();
+    driver = driver_cls()
     driver.initialize(config_json=config_json,
                       float_feature_names=float_feature_names,
                       str_feature_names=str_feature_names)
