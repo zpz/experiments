@@ -18,21 +18,34 @@ cy_options = {
     },
 }
 
-cpp_extensions = [
-    Extension('cpp._cc11binds',
-              sources=['src/pyx/cpp/_cc11binds.cc'],
-              extra_compile_args=['-std=c++17', '-O3'],
-             ),
-]
+cc_options = ['--std=c++17', '-O3']
 
-cy_extensions = [
+
+cpp_extensions = [
     Extension(
-        'datex.version04', ['src/pyx/datex/version04.pyx'],
+        'cpp._cc11binds',
+        sources=['src/pyx/cpp/_cc11binds.cc'],
+        extra_compile_args=cc_options,
+        ),
+    Extension(
+        'datex.cc_version01',
+        sources=['src/pyx/datex/cc_version01.cc'],
+        extra_compile_args=cc_options,
+        )
+    ]
+
+
+cy_extensions = cythonize([
+    Extension(
+        'datex.cy_version09', 
+        sources=['src/pyx/datex/cy_version09.pyx'],
         include_dirs=[numpy_include_dir,],
         define_macros=[('CYTHON_TRACE', '1' if debug else '0')],
         extra_compile_args=['-O3'],
         ),
-]
+    ],
+    **cy_options
+    )
 
 
 setup(
@@ -40,5 +53,5 @@ setup(
     version='0.1.0',
     packages=['pyx'],
     ext_package='src/pyx',
-    ext_modules=cpp_extensions + cythonize(cy_extensions, **cy_options),
+    ext_modules=cpp_extensions + cy_extensions,
 )
