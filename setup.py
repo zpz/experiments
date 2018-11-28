@@ -31,7 +31,17 @@ cpp_extensions = [
         'datex.cc_version01',
         sources=['src/pyx/datex/cc_version01.cc'],
         extra_compile_args=cc_options,
-        )
+        ),
+    Extension(
+        'datex.cc_version02',
+        sources=['src/pyx/datex/cc_version02.cc'],
+        extra_compile_args=cc_options,
+        ),
+    Extension(
+        'datex.cc_version03',
+        sources=['src/pyx/datex/cc_version03.cc'],
+        extra_compile_args=cc_options,
+        ),
     ]
 
 
