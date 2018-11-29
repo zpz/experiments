@@ -1,4 +1,4 @@
-#include <cc_version03.h>
+#include <cc_version04.h>
 #include <pybind11/pybind11.h>
 #include <pybind11/numpy.h>
 
@@ -15,7 +15,7 @@ py::array_t<long> weekdays_py(py::array_t<long> ts)
 }
 
 
-PYBIND11_MODULE(cc_version03, m)
+PYBIND11_MODULE(cc_version04, m)
 {
     m.def("weekdays", &weekdays_py);
 }

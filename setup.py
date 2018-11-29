@@ -21,10 +21,10 @@ cy_options = {
 cc_options = ['--std=c++17', '-O3']
 
 
-cpp_extensions = [
+cc_extensions = [
     Extension(
-        'cpp._cc11binds',
-        sources=['src/pyx/cpp/_cc11binds.cc'],
+        'cc._cc11binds',
+        sources=['src/pyx/cc/_cc11binds.cc'],
         extra_compile_args=cc_options,
         ),
     Extension(
@@ -40,9 +40,19 @@ cpp_extensions = [
     Extension(
         'datex.cc_version03',
         sources=['src/pyx/datex/cc_version03.cc'],
-        extra_compile_args=cc_options,
+        extra_compile_args=cc_options + ['-Isrc/cc/datex'],
+        ),
+    Extension(
+        'datex.cc_version04',
+        sources=['src/pyx/datex/cc_version04.cc'],
+        extra_compile_args=cc_options + ['-Isrc/cc/libdatex'],
+        # runtime_library_dirs=['/home/docker-user/work/src/py-extensions/src/cc/libdatex'],
+        # libraries=['datex'],
         ),
     ]
+
+# Failed to make `runtime_library_dirs` work.
+# Set `LD_LIBRARY_PATH` when running Python, or install shared libs in system location.
 
 
 cy_extensions = cythonize([
@@ -63,5 +73,5 @@ setup(
     version='0.1.0',
     packages=['pyx'],
     ext_package='src/pyx',
-    ext_modules=cpp_extensions + cy_extensions,
+    ext_modules=cc_extensions + cy_extensions,
 )
