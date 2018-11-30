@@ -2,3 +2,4 @@
 build/*
 **/__pycache__/**
 **/*.so
+src/pyx/datex/cy_version09.c

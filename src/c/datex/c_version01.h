@@ -1,4 +1,4 @@
 
 long weekday(long ts);
 
-void weekdays(long * ts, long * out, long n);
+void weekdays(long const * ts, long * out, long n);

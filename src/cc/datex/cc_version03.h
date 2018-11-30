@@ -28,7 +28,7 @@ inline long weekday(long ts)
 
 
 
-inline void _weekdays(long n, long const * ts, long * out)
+inline void _weekdays(long const * ts, long * out, long n)
 {
     for (long i = 0; i < n; i++) {
         out[i] = weekday(ts[i]);
@@ -41,6 +41,6 @@ inline std::vector<long> weekdays(std::vector<long> ts)
 {
     long n = ts.size();
     std::vector<long> out(n);
-    _weekdays(n, ts.data(), out.data());
+    _weekdays(ts.data(), out.data(), n);
     return out;
 }

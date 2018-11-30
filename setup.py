@@ -70,12 +70,16 @@ cy_extensions = cythonize([
     )
 
 
+cffi_extensions = [
+    '_build/_c_version01_build.py:ffibuilder',
+    ]
+
+
 setup(
     name='Python extensions in other languages',
     version='0.1.0',
     packages=['pyx'],
     ext_package='src/pyx',
     ext_modules=cc_extensions + cy_extensions,
-    # cffi_package='src/pyx',
-    cffi_modules=['_build/_c_version01_build.py:ffibuilder'],
+    cffi_modules=cffi_extensions,
 )

@@ -16,6 +16,12 @@ def do_them(mymod, timestamps):
     return fn(timestamps)
 
 
+@timed
+def do_it(mymod, timestamps):
+    fn = mymod.weekday
+    return [fn(v) for v in timestamps]
+
+
 def verify(x, y):
     assert all(a==b for a,b in zip(x,y))
 
@@ -56,14 +62,20 @@ def test_main(n = 10):
     print('cc_version03')
     z = do_them(cc_version03, timestamps_np)
     verify(z, z1)
-
-    # print('cc_version04')
-    # z = do_them(cc_version04, timestamps_np)
+    # z = do_it(cc_version03, timestamps_np)
     # verify(z, z1)
 
     print('c_version01')
-    z = do_them(c_version01, timestamps)
+    z = do_them(c_version01, timestamps_np)
     verify(z, z1)
+    # z = do_it(c_version01, timestamps_np)
+    # verify(z, z1)
+
+    z = do_them(c_version01, timestamps_np)
+    # z = do_it(c_version01, timestamps_np)
+    # verify(z, z1)
+
+    z = do_them(c_version01, timestamps_np)
 
 
 def main():

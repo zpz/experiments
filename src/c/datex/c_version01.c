@@ -25,9 +25,9 @@ long weekday(long ts)
 }
 
 
-void weekdays(long * ts, long * out, long n)
+void weekdays(long const * ts, long * out, long n)
 {
-    for (int i = 0; i < n; i++) {
+    for (long i = 0; i < n; i++) {
         out[i] = weekday(ts[i]);
     }
 }
