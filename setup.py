@@ -1,6 +1,8 @@
 from setuptools import setup, Extension
 from Cython.Build import cythonize
 import numpy
+from cffi import FFI
+
 
 debug = False
 
@@ -74,4 +76,6 @@ setup(
     packages=['pyx'],
     ext_package='src/pyx',
     ext_modules=cc_extensions + cy_extensions,
+    # cffi_package='src/pyx',
+    cffi_modules=['_build/_c_version01_build.py:ffibuilder'],
 )
