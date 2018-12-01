@@ -6,7 +6,7 @@ from zpz.profile import timed
 
 from pyx.datex import version01, version02, version03
 from pyx.datex import cy_version09
-from pyx.datex import cc_version01, cc_version02, cc_version03 #, cc_version04
+from pyx.datex import cc_version01, cc_version02, cc_version03
 from pyx.datex import c_version01
 
 

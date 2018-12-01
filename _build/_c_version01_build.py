@@ -9,7 +9,7 @@ ffibuilder.cdef('''
 
 ffibuilder.set_source(
     "datex._c_version01",
-    open('src/pyx/datex/_c_version01.h').read(),
+    open('pyx/datex/_c_version01.h').read(),
     sources=['src/c/datex/c_version01.c'],
     include_dirs=['src/c/datex'],
 )

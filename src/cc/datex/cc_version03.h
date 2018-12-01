@@ -1,5 +1,9 @@
 #include <vector>
 
+// #include <vector>
+
+// #include "cc_version03.h"
+
 
 inline long weekday(long ts) 
 {
@@ -44,3 +48,10 @@ inline std::vector<long> weekdays(std::vector<long> ts)
     _weekdays(ts.data(), out.data(), n);
     return out;
 }
+
+
+// long weekday(long ts);
+
+// void _weekdays(long const * ts, long * out, long n);
+
+// std::vector<long> weekdays(std::vector<long> ts);

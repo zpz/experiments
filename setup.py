@@ -20,36 +20,31 @@ cy_options = {
     },
 }
 
-cc_options = ['--std=c++17', '-O3']
+cc_options = ['--std=c++17', '-O3', '-Wall', '-Wextra', '-Wfatal-errors']
 
 
 cc_extensions = [
     Extension(
         'cc._cc11binds',
-        sources=['src/pyx/cc/_cc11binds.cc'],
+        sources=['pyx/cc/_cc11binds.cc'],
         extra_compile_args=cc_options,
         ),
     Extension(
         'datex.cc_version01',
-        sources=['src/pyx/datex/cc_version01.cc'],
+        sources=['pyx/datex/_cc_version01.cc'],
         extra_compile_args=cc_options,
         ),
     Extension(
         'datex.cc_version02',
-        sources=['src/pyx/datex/cc_version02.cc'],
+        sources=['pyx/datex/_cc_version02.cc'],
         extra_compile_args=cc_options,
         ),
     Extension(
         'datex.cc_version03',
-        sources=['src/pyx/datex/cc_version03.cc'],
-        extra_compile_args=cc_options + ['-Isrc/cc/datex'],
-        ),
-    Extension(
-        'datex.cc_version04',
-        sources=['src/pyx/datex/cc_version04.cc'],
-        extra_compile_args=cc_options + ['-Isrc/cc/libdatex'],
-        # runtime_library_dirs=['/home/docker-user/work/src/py-extensions/src/cc/libdatex'],
-        # libraries=['datex'],
+        sources=['pyx/datex/_cc_version03.cc'],
+        include_dirs=['src/cc/datex'],
+        extra_compile_args=cc_options,
+        # extra_compile_args=cc_options + ['-Isrc/cc/datex'],
         ),
     ]
 
@@ -60,7 +55,7 @@ cc_extensions = [
 cy_extensions = cythonize([
     Extension(
         'datex.cy_version09', 
-        sources=['src/pyx/datex/cy_version09.pyx'],
+        sources=['pyx/datex/_cy_version09.pyx'],
         include_dirs=[numpy_include_dir,],
         define_macros=[('CYTHON_TRACE', '1' if debug else '0')],
         extra_compile_args=['-O3'],
@@ -78,8 +73,9 @@ cffi_extensions = [
 setup(
     name='Python extensions in other languages',
     version='0.1.0',
-    packages=['pyx'],
-    ext_package='src/pyx',
+    packages=['pyx', 'pyx.cc', 'pyx.datex'],
+    # package_dir={'pyx': 'src/pyx', 'pyx.cc': 'src/pyx/cc', 'pyx.datex': 'src/pyx/datex'},
+    ext_package='pyx',
     ext_modules=cc_extensions + cy_extensions,
     cffi_modules=cffi_extensions,
 )
