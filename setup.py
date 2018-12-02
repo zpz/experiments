@@ -1,4 +1,4 @@
-from setuptools import setup, Extension
+from setuptools import setup, Extension, find_packages
 from Cython.Build import cythonize
 import numpy
 from cffi import FFI
@@ -20,61 +20,59 @@ cy_options = {
     },
 }
 
-cc_options = ['--std=c++17', '-O3', '-Wall', '-Wextra', '-Wfatal-errors']
-
-
-cc_extensions = [
-    Extension(
-        'cc._cc11binds',
-        sources=['pyx/cc/_cc11binds.cc'],
-        extra_compile_args=cc_options,
-        ),
-    Extension(
-        'datex.cc_version01',
-        sources=['pyx/datex/_cc_version01.cc'],
-        extra_compile_args=cc_options,
-        ),
-    Extension(
-        'datex.cc_version02',
-        sources=['pyx/datex/_cc_version02.cc'],
-        extra_compile_args=cc_options,
-        ),
-    Extension(
-        'datex.cc_version03',
-        sources=['pyx/datex/_cc_version03.cc'],
-        include_dirs=['src/cc/datex'],
-        extra_compile_args=cc_options,
-        # extra_compile_args=cc_options + ['-Isrc/cc/datex'],
-        ),
-    ]
-
-# Failed to make `runtime_library_dirs` work.
-# Set `LD_LIBRARY_PATH` when running Python, or install shared libs in system location.
-
-
 cy_extensions = cythonize([
     Extension(
-        'datex.cy_version09', 
-        sources=['pyx/datex/_cy_version09.pyx'],
+        'datex.cy._version09', 
+        sources=['src/pyx/datex/cy/_version09.pyx'],
         include_dirs=[numpy_include_dir,],
         define_macros=[('CYTHON_TRACE', '1' if debug else '0')],
-        extra_compile_args=['-O3'],
+        extra_compile_args=['-O3', '-Wall'],
         ),
     ],
     **cy_options
     )
 
 
+cc_options = ['--std=c++17', '-O3', '-Wall', '-Wextra', '-Wfatal-errors']
+
+cc_extensions = [
+    Extension(
+        'cc._cc11binds',
+        sources=['src/pyx/cc/_cc11binds.cc'],
+        extra_compile_args=cc_options,
+        ),
+    Extension(
+        'datex.cc.version01',
+        sources=['src/pyx/datex/cc/version01.cc',
+                 'src/cc/datex/cc_version01.cc'],
+        include_dirs=['src/cc/datex'],
+        extra_compile_args=cc_options,
+        ),
+    Extension(
+        'datex.cc.version02',
+        sources=['src/pyx/datex/cc/version02.cc',
+                 'src/cc/datex/cc_version01.cc'],
+        include_dirs=['src/cc/datex'],
+        extra_compile_args=cc_options,
+        ),
+    ]
+
+# If need to load a shared library at run-time,
+# set `LD_LIBRARY_PATH` when running Python, or install the shared libs in system location.
+# There is a `runtime_library_dirs` argument to `Extension` that seems relevant
+# but I failed to make it work.
+
+
 cffi_extensions = [
-    '_build/_c_version01_build.py:ffibuilder',
+    'src/pyx/datex/c/_version01_build.py:ffibuilder',
     ]
 
 
 setup(
-    name='Python extensions in other languages',
+    name='pyx',
     version='0.1.0',
-    packages=['pyx', 'pyx.cc', 'pyx.datex'],
-    # package_dir={'pyx': 'src/pyx', 'pyx.cc': 'src/pyx/cc', 'pyx.datex': 'src/pyx/datex'},
+    package_dir={'': 'src'},
+    packages=find_packages(where='src'),
     ext_package='pyx',
     ext_modules=cc_extensions + cy_extensions,
     cffi_modules=cffi_extensions,

@@ -1,6 +1,4 @@
 #include <vector>
-#include <pybind11/pybind11.h>
-#include <pybind11/numpy.h>
 
 
 long weekday(long ts) 
@@ -29,24 +27,12 @@ long weekday(long ts)
 }
 
 
-namespace py = pybind11;
-
-
-py::array_t<long> weekdays(py::array_t<long> ts)
+std::vector<long> weekdays(std::vector<long> const & ts)
 {
     long n = ts.size();
-    py::array_t<long> out = py::array_t<long>(n);
-    auto input = ts.data();
-    auto output = out.mutable_data();
+    std::vector<long> out(n);
     for (long i = 0; i < n; i++) {
-        output[i] = weekday(input[i]);
+        out[i] = weekday(ts[i]);
     }
     return out;
-}
-
-
-PYBIND11_MODULE(cc_version02, m)
-{
-    m.def("weekdays", &weekdays);
-    m.def("vectorized_weekday", py::vectorize(weekday));
 }

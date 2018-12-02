@@ -1,20 +1,32 @@
-all: pyx
+all:
 
 
-pyx:
-	python setup.py build_ext --inplace
+# 'install' does not require `build` to be run first.
+# It does everything and does not leave garbage files behind.
+install: FORCE
+	pip install --user .
 
 
-clean:
+# `build` may be useful because it prints out details
+# of the compiling process.
+build: FORCE
+	python setup.py build
+
+
+clean: FORCE
 	rm -f pyx/*so
-	rm -f src/c/*.o
-	rm -f src/c/*.so
 	rm -f src/c/datex/*.o
 	rm -f src/c/datex/*.so
-	rm -f pyx/cc/*.o
-	rm -f pyx/cc/*.so
-	rm -f pyx/datex/*.so
-	rm -f pyx/datex/*.o
-	rm -f pyx/datex/cy_version09.c
-	rm -f pyx/datex/_c_version01.c
-	rm -rf build
+	rm -f src/cc/cc4py/*.so
+	rm -f src/cc/datex/*.so
+	rm -f src/pyx/cc/*.so
+	rm -f src/pyx/datex/c/*.o
+	rm -f src/pyx/datex/c/*.so
+	rm -f src/pyx/datex/cc/*.o
+	rm -f src/pyx/datex/cc/*.so
+	rm -f src/pyx/datex/cy/_version09.c
+	rm -f src/pyx/datex/cy/*.so
+	rm -rf build dist
+
+
+FORCE:
