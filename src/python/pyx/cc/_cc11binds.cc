@@ -1,6 +1,6 @@
 /*
  Compile:
- g++ -O3 -shared -std=c++11 -fPIC -I /usr/local/include/python3.5m \
+ g++ -O3 -shared -std=c++11 -fPIC -I /usr/local/include/python3.6m \
       `python-config --cflags --ldflags |sed s/-Wstrict-prototypes//` _cc11binds.cc -o _cc11binds.so
 */
 
