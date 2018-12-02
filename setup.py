@@ -23,7 +23,7 @@ cy_options = {
 cy_extensions = cythonize([
     Extension(
         'datex.cy._version09', 
-        sources=['src/pyx/datex/cy/_version09.pyx'],
+        sources=['src/python/pyx/datex/cy/_version09.pyx'],
         include_dirs=[numpy_include_dir,],
         define_macros=[('CYTHON_TRACE', '1' if debug else '0')],
         extra_compile_args=['-O3', '-Wall'],
@@ -38,19 +38,19 @@ cc_options = ['--std=c++17', '-O3', '-Wall', '-Wextra', '-Wfatal-errors']
 cc_extensions = [
     Extension(
         'cc._cc11binds',
-        sources=['src/pyx/cc/_cc11binds.cc'],
+        sources=['src/python/pyx/cc/_cc11binds.cc'],
         extra_compile_args=cc_options,
         ),
     Extension(
         'datex.cc.version01',
-        sources=['src/pyx/datex/cc/version01.cc',
+        sources=['src/python/pyx/datex/cc/version01.cc',
                  'src/cc/datex/cc_version01.cc'],
         include_dirs=['src/cc/datex'],
         extra_compile_args=cc_options,
         ),
     Extension(
         'datex.cc.version02',
-        sources=['src/pyx/datex/cc/version02.cc',
+        sources=['src/python/pyx/datex/cc/version02.cc',
                  'src/cc/datex/cc_version01.cc'],
         include_dirs=['src/cc/datex'],
         extra_compile_args=cc_options,
@@ -64,15 +64,15 @@ cc_extensions = [
 
 
 cffi_extensions = [
-    'src/pyx/datex/c/_version01_build.py:ffibuilder',
+    'src/python/pyx/datex/c/_version01_build.py:ffibuilder',
     ]
 
 
 setup(
     name='pyx',
     version='0.1.0',
-    package_dir={'': 'src'},
-    packages=find_packages(where='src'),
+    package_dir={'': 'src/python'},
+    packages=find_packages(where='src/python'),
     ext_package='pyx',
     ext_modules=cc_extensions + cy_extensions,
     cffi_modules=cffi_extensions,
