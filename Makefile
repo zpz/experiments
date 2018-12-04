@@ -27,6 +27,7 @@ clean: FORCE
 	rm -f src/pyx/datex/cy/_version09.c
 	rm -f src/pyx/datex/cy/*.so
 	rm -rf build dist
+	pip uninstall pyx -y
 
 
 FORCE:
