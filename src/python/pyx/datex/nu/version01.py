@@ -4,7 +4,7 @@ from numba import jit
 @jit(nopython=True)
 def weekday(ts):
     ts0 = 1489363200   # 2017-03-13 0:0:0 UTC, Monday
-    weekday0 = 1   # ISO weekday: Monday is 1, Sunday is 7
+    weekday0 = 1       # ISO weekday: Monday is 1, Sunday is 7
 
     DAY_SECONDS = 86400
     WEEK_SECONDS = 604800

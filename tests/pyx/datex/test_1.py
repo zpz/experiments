@@ -45,6 +45,7 @@ def do_all(fn, n):
     _ = nu.version03.weekdays(timestamps_np[:10])
     _ = nu.version04.weekdays(timestamps_np[:10])
 
+
     for f, ts in functions:
         fn(f, ts)
 
