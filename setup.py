@@ -2,6 +2,7 @@ from setuptools import setup, Extension, find_packages
 from Cython.Build import cythonize
 import numpy
 from cffi import FFI
+from setuptools_rust import RustExtension, Binding, Strip
 
 
 debug = False
@@ -68,6 +69,16 @@ cffi_extensions = [
     ]
 
 
+rust_extensions = [
+    RustExtension(
+        "datex.rs.version01",
+        "src/python/pyx/datex/rs/build/Cargo.toml",
+        binding=Binding.PyO3,
+        strip=Strip.Debug,
+    ),
+]
+
+
 setup(
     name='pyx',
     version='0.1.0',
@@ -76,4 +87,8 @@ setup(
     ext_package='pyx',
     ext_modules=cc_extensions + cy_extensions,
     cffi_modules=cffi_extensions,
+    rust_extensions=rust_extensions,
+    include_package_data=True,
+    zip_safe=False,
 )
+

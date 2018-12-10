@@ -3,12 +3,6 @@ authors = ["zpz"]
 name = "datex"
 version = "0.1.0"
 
-[dependencies.pyo3]
-git = "https://github.com/PyO3/pyo3"
-branch = "master"
-package = "pyo3"
-features = ["extension-module"]
-
 [lib]
 name = "datex"
 crate-type = ["cdylib"]
