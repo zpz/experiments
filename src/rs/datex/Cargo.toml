@@ -5,4 +5,4 @@ version = "0.1.0"
 
 [lib]
 name = "datex"
-crate-type = ["cdylib"]
+path = "src/lib.rs"

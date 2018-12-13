@@ -5,7 +5,7 @@ ffibuilder = FFI()
 ffibuilder.cdef(open('src/c/datex/c_version01.h').read())
 
 ffibuilder.set_source(
-    "datex.c._version01",
+    "pyx.datex.c._version01",
     '',
     sources=['src/c/datex/c_version01.c'],
     include_dirs=['src/c/datex'],

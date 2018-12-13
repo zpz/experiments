@@ -1,0 +1,22 @@
+[package]
+authors = ["zpz"]
+name = "rs_version01"
+version = "0.1.0"
+
+[dependencies.pyo3]
+git = "https://github.com/PyO3/pyo3"
+branch = "master"
+package = "pyo3"
+features = ["extension-module"]
+
+[dependencies.datex]
+path = "/home/docker-user/work/src/py-extensions/src/rs/datex"
+#path = "../../../../../rs/datex"
+# `pip install` has trouble with relative path if going up, b/c it seems
+# `pip` copies stuff to a temp place and does its work from there.
+# `python setup.py install` works fine. 
+
+[lib]
+name = "rs"
+path = "src/lib.rs"
+crate-type = ["cdylib"]

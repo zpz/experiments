@@ -1,21 +1,24 @@
 #![feature(specialization)]
+#![feature(custom_attribute)]
 
 #[macro_use]
+
 extern crate pyo3;
+extern crate datex;
 
 use pyo3::prelude::*;
 
-mod datex;
+use datex::datex::weekday as weekday_;
 
 
 #[pyfunction]
 fn weekday(x: i64) -> i64 {
-    datex::weekday(x)
+    weekday_(x)
 }
 
 
 #[pymodule]
-fn datex(_py: Python, m: &PyModule) -> PyResult<()> {
+fn version01(_py: Python, m: &PyModule) -> PyResult<()> {
     m.add_wrapped(wrap_function!(weekday))?;
 
     Ok(())
