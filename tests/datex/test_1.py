@@ -3,8 +3,8 @@ import numpy
 
 from zpz.profile import Timer
 
-from pyx.datex import version01, version03
-from pyx.datex import cy, cc, c, nu
+from datex import version01, version03
+from datex import cy, cc, c, nu
 
 
 def check_it(fn, timestamps):

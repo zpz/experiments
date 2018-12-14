@@ -1,6 +1,6 @@
 import time
 
-from pyx.cpp.cpp_2 import Driver
+from pycc.cpp_2 import Driver
 from .common import do_threads
 
 

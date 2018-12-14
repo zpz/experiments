@@ -23,8 +23,8 @@ cy_options = {
 
 cy_extensions = cythonize([
     Extension(
-        'pyx.datex.cy._version09', 
-        sources=['src/python/pyx/datex/cy/_version09.pyx'],
+        'datex.cy._version09', 
+        sources=['src/python/datex/cy/_version09.pyx'],
         include_dirs=[numpy_include_dir,],
         define_macros=[('CYTHON_TRACE', '1' if debug else '0')],
         extra_compile_args=['-O3', '-Wall'],
@@ -38,20 +38,20 @@ cc_options = ['--std=c++17', '-O3', '-Wall', '-Wextra', '-Wfatal-errors']
 
 cc_extensions = [
     Extension(
-        'pyx.cc._cc11binds',
-        sources=['src/python/pyx/cc/_cc11binds.cc'],
+        'pycc._cc11binds',
+        sources=['src/python/pycc/_cc11binds.cc'],
         extra_compile_args=cc_options,
         ),
     Extension(
-        'pyx.datex.cc.version01',
-        sources=['src/python_ext/pyx/datex/cc/version01.cc',
+        'datex.cc.version01',
+        sources=['src/python_ext/datex/cc/version01.cc',
                  'src/cc/datex/cc_version01.cc'],
         include_dirs=['src/cc/datex'],
         extra_compile_args=cc_options,
         ),
     Extension(
-        'pyx.datex.cc.version02',
-        sources=['src/python_ext/pyx/datex/cc/version02.cc',
+        'datex.cc.version02',
+        sources=['src/python_ext/datex/cc/version02.cc',
                  'src/cc/datex/cc_version01.cc'],
         include_dirs=['src/cc/datex'],
         extra_compile_args=cc_options,
@@ -65,14 +65,14 @@ cc_extensions = [
 
 
 cffi_extensions = [
-    'src/python_ext/pyx/datex/c/_version01_build.py:ffibuilder',
+    'src/python_ext/datex/c/_version01_build.py:ffibuilder',
     ]
 
 
 rust_extensions = [
     RustExtension(
-        "pyx.datex.rs.version01",
-        "src/python_ext/pyx/datex/rs/Cargo.toml",
+        "datex.rs.version01",
+        "src/python_ext/datex/rs/Cargo.toml",
         binding=Binding.PyO3,
         strip=Strip.Debug,
     ),
