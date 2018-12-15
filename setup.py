@@ -24,7 +24,7 @@ cy_options = {
 cy_extensions = cythonize([
     Extension(
         'datex.cy._version09', 
-        sources=['src/python/datex/cy/_version09.pyx'],
+        sources=['src/python_ext/datex/cy/_version09.pyx'],
         include_dirs=[numpy_include_dir,],
         define_macros=[('CYTHON_TRACE', '1' if debug else '0')],
         extra_compile_args=['-O3', '-Wall'],
