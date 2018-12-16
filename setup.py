@@ -46,14 +46,14 @@ cc_extensions = [
         'datex.cc.version01',
         sources=['src/python_ext/datex/cc/version01.cc',
                  'src/cc/datex/cc_version01.cc'],
-        include_dirs=['src/cc/datex'],
+        include_dirs=['src/cc'],
         extra_compile_args=cc_options,
         ),
     Extension(
         'datex.cc.version02',
         sources=['src/python_ext/datex/cc/version02.cc',
                  'src/cc/datex/cc_version01.cc'],
-        include_dirs=['src/cc/datex'],
+        include_dirs=['src/cc'],
         extra_compile_args=cc_options,
         ),
     ]

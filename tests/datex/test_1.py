@@ -8,6 +8,7 @@ from datex import cy, cc, c, nu
 
 
 def check_it(fn, timestamps):
+    # Check correctness against the original Python version.
     z = fn(timestamps)
     z0 = version01.weekdays(timestamps)
     assert all(a == b for a,b in zip(z, z0))
@@ -29,16 +30,17 @@ def do_all(fn, n):
         (version01.weekdays, timestamps_np),
         (version03.weekdays, timestamps_np),
         (cy.version09.weekdays, memoryview(timestamps_np)),
+        (c.version01.weekdays, timestamps_np),
         (cc.version01.weekdays, memoryview(timestamps_np)),
         (cc.version01.vectorized_weekday, timestamps_np),
         (cc.version02.weekdays, timestamps_np),
-        (c.version01.weekdays, timestamps_np),
         (nu.version01.weekdays, timestamps_np),
         (nu.version02.weekdays, timestamps_np),
         (nu.version03.weekdays, timestamps_np),
         (nu.version04.weekdays, timestamps_np),
     ]
 
+    # Cache JIT type of work so that it does not distort benchmarks.
     _ = c.version01.weekdays(timestamps_np[:10])
     _ = nu.version01.weekdays(timestamps_np[:10])
     _ = nu.version02.weekdays(timestamps_np[:10])
@@ -51,6 +53,7 @@ def do_all(fn, n):
 
 
 def test_all():
+    # This is called by `py.test` to verify that code runs and is correct.
     do_all(check_it, 10)
 
 
@@ -59,6 +62,8 @@ def benchmark(n, repeat):
 
 
 if __name__ == "__main__":
+    # Running the script (i.e. not by `py.test`) will do time benchmarking.
+
     from argparse import ArgumentParser
     p = ArgumentParser()
     p.add_argument('--n', type=int, default=10000000)
