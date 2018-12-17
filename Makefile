@@ -14,19 +14,13 @@ build: FORCE
 
 
 clean: FORCE
-	rm -f pyx/*so
-	rm -f src/c/datex/*.o
-	rm -f src/c/datex/*.so
-	rm -f src/cc/cc4py/*.so
-	rm -f src/cc/datex/*.so
-	rm -f src/pyx/cc/*.so
-	rm -f src/pyx/datex/c/*.o
-	rm -f src/pyx/datex/c/*.so
-	rm -f src/pyx/datex/cc/*.o
-	rm -f src/pyx/datex/cc/*.so
-	rm -f src/pyx/datex/cy/_version09.c
-	rm -f src/pyx/datex/cy/*.so
+	rm -f src/python_ext/datex/cy/_version09.c
 	rm -rf build dist
+	rm -rf build
+	rm -rf src/python/*egg-info
+	rm -rf .pytest_cache
+	pip uninstall pyx -y
+	pip uninstall datex -y
 
 
 FORCE:

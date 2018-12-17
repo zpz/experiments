@@ -4,7 +4,7 @@ import time
 from faker import Faker
 import numpy as np
 
-from pyx.cpp.common import big_model
+from pycc.common import big_model
 
 
 rnd_seed = 3333

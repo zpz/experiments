@@ -2,10 +2,6 @@ from cffi import FFI
 ffibuilder = FFI()
 
 
-# ffibuilder.cdef('''
-#     long weekday(long ts);
-#     void weekdays(long const * ts, long * out, long n);
-#     ''')
 ffibuilder.cdef(open('src/c/datex/c_version01.h').read())
 
 ffibuilder.set_source(

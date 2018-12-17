@@ -1,5 +1,9 @@
 *.o
-build/*
+**/build/*
+**/target/*
 **/__pycache__/**
 **/*.so
-src/pyx/datex/cy_version09.c
+**/Cargo.lock
+src/python/datex/cy/_version09.c
+**/*egg-info
+src/python_ext/datex/cy/_version09.c

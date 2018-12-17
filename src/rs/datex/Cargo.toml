@@ -1,0 +1,8 @@
+[package]
+authors = ["zpz"]
+name = "datex"
+version = "0.1.0"
+
+[lib]
+name = "datex"
+path = "src/lib.rs"
