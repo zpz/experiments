@@ -1,6 +1,9 @@
-# pyx
+# experiments.py
 
-Various Python experiments, mainly related to inter-operations with other languages.
+Various Python experiments.
+Currently the content is mainly related to inter-operations with other languages.
+Other topics will appear over time.
+There is no guarantee that the content and directory structure of this repo will be stable.
 
 ## Project layout
 
