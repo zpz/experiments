@@ -80,7 +80,7 @@ rust_extensions = [
 
 
 setup(
-    name='pyx',
+    name='datex',
     version='0.1.0',
     package_dir={'': 'src/python'},
     packages=find_packages(where='src/python'),
