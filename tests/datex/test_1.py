@@ -4,7 +4,7 @@ import numpy
 from zpz.profile import Timer
 
 from datex import version01, version03
-from datex import cy, cc, c, nu
+from datex import cy, cc, c, nu, rs
 
 
 def check_it(fn, timestamps):
@@ -34,11 +34,16 @@ def do_all(fn, n):
         (cc.version01.weekdays, memoryview(timestamps_np)),
         (cc.version01.vectorized_weekday, timestamps_np),
         (cc.version02.weekdays, timestamps_np),
+        (rs.version01.weekdays, timestamps_np),
         (nu.version01.weekdays, timestamps_np),
         (nu.version02.weekdays, timestamps_np),
         (nu.version03.weekdays, timestamps_np),
         (nu.version04.weekdays, timestamps_np),
     ]
+
+    # `rs.version01.weekdays.__module__` is `None`.
+    # Either it's a `pyo3` bug, or it's because I haven't figured out how to use it. 
+    rs.version01.weekdays.__module__ = 'datex.rs.version01'
 
     # Cache JIT type of work so that it does not distort benchmarks.
     _ = c.version01.weekdays(timestamps_np[:10])

@@ -4,6 +4,7 @@ all:
 # 'install' does not require `build` to be run first.
 # It does everything and does not leave garbage files behind.
 install: FORCE
+	python setup.py build_rust
 	pip install --user .
 
 

@@ -1,43 +1,25 @@
-#![feature(specialization)]
-#![feature(custom_attribute)]
-
-#[macro_use]
+extern crate numpy;
+use numpy::{PyArray1, IntoPyArray};
 
 extern crate pyo3;
+use pyo3::prelude::{pymodinit, Py, PyModule, PyResult, Python};
+
 extern crate datex;
-extern crate numpy;
-extern crate ndarray;
-
-use pyo3::prelude::*; //{Py, Python, pyfunction, pymodule, PyModule, PyResult};
-use ndarray::{Array1};
-use numpy::{PyArray1};
-
-use datex::datex::weekday as weekday_;
+use datex::datex::{weekday, weekdays};
 
 
-
-#[pyfunction]
-fn weekday(x: i64) -> i64 {
-    weekday_(x)
-}
-
-
-#[pyfunction]
-fn weekdays(x: &PyArray1<i64>) -> Py<PyArray1<i64>> {
-    let mut out = Array1::<i64>::zeros(x.len());
-    for (i, xx) in x.iter().enumerate() {
-        out[i] = weekday(*xx);
-    }
-    let gil = pyo3::Python::acquire_gil();
-    out.to_pyarray(gil.python())
-}
-
-
-#[pymodule]
+#[pymodinit(version01)]
 fn version01(_py: Python, m: &PyModule) -> PyResult<()> {
-    m.add_wrapped(wrap_function!(weekday))?;
-    m.add_wrapped(wrap_function!(weekdays))?;
+
+    #[pyfn(m, "weekday")]
+    fn weekday_py(_py: Python, x: i64) -> i64 {
+        weekday(x)
+    }
+
+    #[pyfn(m, "weekdays")]
+    fn weekdays_py(_py: Python, x: &PyArray1<i64>) -> Py<PyArray1<i64>> {
+        weekdays(x.as_array()).into_pyarray(_py).to_owned()
+    }
 
     Ok(())
 }
-

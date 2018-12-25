@@ -1,3 +1,6 @@
+extern crate ndarray;
+use self::ndarray::{Array1, ArrayView1};
+
 
 pub fn weekday(ts: i64) -> i64 
 {
@@ -20,4 +23,13 @@ pub fn weekday(ts: i64) -> i64
     } else {
         weekday
     }
+}
+
+
+pub fn weekdays(x: ArrayView1<i64>) -> Array1<i64> {
+    let mut out = Array1::<i64>::zeros(x.len());
+    for (i, xx) in x.iter().enumerate() {
+        out[i] = weekday(*xx);
+    }
+    out
 }

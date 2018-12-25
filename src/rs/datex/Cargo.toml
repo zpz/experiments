@@ -6,3 +6,6 @@ version = "0.1.0"
 [lib]
 name = "datex"
 path = "src/lib.rs"
+
+[dependencies]
+ndarray = "0.12.1"
