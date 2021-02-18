@@ -2,14 +2,12 @@
 
 Various Python experiments.
 Currently the content is mainly related to inter-operations with other languages.
-Other topics will appear over time.
-There is no guarantee that the content and directory structure of this repo will be stable.
+Other topics will appear over time. The content and strucuture of this repo may change at any time in any way.
+
 
 ## Project layout
 
 I've adopted a `src/`-based structure.
-[This blogpost](https://hynek.me/articles/testing-packaging/) might be a good reference regarding this structure.
-
 A critical detail in `setup.py` related to this structure is these two arguments:
 
 ```
