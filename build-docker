@@ -1,0 +1,13 @@
+#!/bin/bash
+
+set -e
+
+TINY=zppz/tiny:21.01.02
+cmd="$(docker run --rm ${TINY} cat /usr/tools/find-image)"
+PARENT=$(bash -c "${cmd}" -- zppz/py3)
+
+docker build \
+    --build-arg PARENT=${PARENT} \
+    --tag experiments.py \
+    .
+
