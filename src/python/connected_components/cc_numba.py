@@ -1,3 +1,4 @@
+import itertools
 from collections import defaultdict
 from typing import List, Iterable
 
@@ -11,74 +12,69 @@ import numpy as np
 # Compiling this function in particular prints a warning;
 # don't worry about it.
 @numba.jit(nopython=True, cache=True)
-def _connected_components_internal(
+def _internal(
         item_markers: np.ndarray,
-        neighborhood_markers: np.ndarray,
-        idx_neighborhood: int,
-        neighbors: np.ndarray,
+        component_markers: np.ndarray,
+        idx_component: int,
+        component_items: np.ndarray,
         ):
-    i = idx_neighborhood
-    for it in neighbors:
+    i = idx_component
+    for it in component_items:
         j = item_markers[it]
         if j < 0:
             item_markers[it] = i
         else:
-            k = neighborhood_markers[j]
+            k = component_markers[j]
             if k == i:
                 continue
             while True:
-                neighborhood_markers[j] = i
+                component_markers[j] = i
                 if k == j:
                     break
                 j = k
-                k = neighborhood_markers[j]
+                k = component_markers[j]
 
 
-def connected_components(
-        neighborhoods: Iterable[np.ndarray],
+def connected_components_(
+        components: Iterable[np.ndarray],
         *,
         n_items: int,
-        n_neighborhoods: int,
+        n_components: int,
         ) -> List[np.ndarray]:
-    # Each neighborhood is a sequence of items.
+    # Each component is a sequence of items.
     # The items are represented by their indices in the entire set of items
-    # across all neighborhoods, hence all the elements in `neighborhoods`
+    # across all components, hence all the elements in `components`
     # are integers from 0 up to but not including `n_items`, which
-    # is the total numbe of items across all neighborhoods.
+    # is the total numbe of items across all components.
 
     item_markers = np.full(n_items, -1)
-    neighborhood_markers = np.arange(n_neighborhoods)
+    component_markers = np.arange(n_components)
 
-    for i, neighbors in enumerate(neighborhoods):
-        _connected_components_internal(item_markers, neighborhood_markers, i, neighbors)
+    for i, component_items in enumerate(components):
+        _internal(item_markers, component_markers, i, component_items)
 
     groups = defaultdict(list)
-    # Each element is a list of neighborhood indices;
-    # these neighborhoods are connected.
-    for i, mark in enumerate(neighborhood_markers):
+    # Each element is a list of component indices;
+    # these components are connected.
+    for i, mark in enumerate(component_markers):
         if mark != i:
-            k = neighborhood_markers[mark]
+            k = component_markers[mark]
             while k != mark:
                 mark = k
-                k = neighborhood_markers[mark]
+                k = component_markers[mark]
         groups[mark].append(i)
 
     return list(groups.values())
 
 
+def connected_components(components, **kwargs):
+    cc = connected_components_(components, **kwargs)
 
-if __name__ == '__main__':
-    groups = [
-            (0, 1, 2, 3, 4, 5),
-            (0, 1, 8),
-            (2, 9),
-            (6, 7),
-            (5,),
-            (8, 9),
-            (10, 11, 12, 13),
-            (10, 14, 15),
+    return cc
+
+    return [
+            sorted(set(itertools.chain.from_iterable(
+                (components[idx] for idx in c))))
+            for c in cc
             ]
-    groups = [np.array(g) for g in groups]
-    cc = list(connected_components(groups, n_items=16, n_neighborhoods=len(groups)))
-    print(cc)
 
