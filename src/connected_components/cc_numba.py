@@ -35,12 +35,7 @@ def _internal(
                 k = component_markers[j]
 
 
-def connected_components_(
-        components: Iterable[np.ndarray],
-        *,
-        n_items: int,
-        n_components: int,
-        ) -> List[np.ndarray]:
+def connected_components_(components: Iterable[np.ndarray], n_items: int, n_components: int) -> List[np.ndarray]:
     # Each component is a sequence of items.
     # The items are represented by their indices in the entire set of items
     # across all components, hence all the elements in `components`
@@ -67,14 +62,13 @@ def connected_components_(
     return list(groups.values())
 
 
-def connected_components(components, **kwargs):
-    cc = connected_components_(components, **kwargs)
-
-    return cc
+def connected_components(components, n_items):
+    components = [c if isinstance(c, np.ndarray) else np.array(c) for c in components]
+    cc = connected_components_(components, n_items, len(components))
 
     return [
-            sorted(set(itertools.chain.from_iterable(
-                (components[idx] for idx in c))))
+            set(itertools.chain.from_iterable(
+                (components[idx] for idx in c)))
             for c in cc
             ]
 
