@@ -1,7 +1,6 @@
 import numpy as np
 import cc_nx
 import cc_py
-import cc_np
 import cc_numba
 
 
@@ -46,11 +45,6 @@ def check_py():
     print(cc)
 
 
-def check_np():
-    cc = cc_np.connected_components(COMPONENTS_2, N_2)
-    print(cc)
-
-
 def check_numba():
     cc = cc_numba.connected_components(COMPONENTS_2, N_2)
     print(cc)
@@ -60,7 +54,6 @@ if __name__ == '__main__':
     intro_nx()
     check_nx()
     check_py()
-    check_np()
     check_numba()
 
 
