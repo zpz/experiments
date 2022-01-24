@@ -1,7 +1,6 @@
 import math
 import random
 import time
-import numpy as np
 import cc_nx
 import cc_py
 

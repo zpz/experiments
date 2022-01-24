@@ -1,10 +1,10 @@
-from typing import Sequence
+from typing import Iterable 
 import networkx as nx
 
 
-def connected_components(groups: Sequence[Sequence[int]]):
+def connected_components(components: Iterable[Iterable[int]]):
     graph = nx.parse_adjlist(
-            (' '.join(str(i) for i in n) for n in groups),
+            (' '.join(str(i) for i in c) for c in components),
             nodetype=int,
             )
     return list(nx.connected_components(graph))

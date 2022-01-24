@@ -35,13 +35,7 @@ def _internal(
                 k = component_markers[j]
 
 
-def connected_components_(components: Iterable[np.ndarray], n_items: int, n_components: int) -> List[np.ndarray]:
-    # Each component is a sequence of items.
-    # The items are represented by their indices in the entire set of items
-    # across all components, hence all the elements in `components`
-    # are integers from 0 up to but not including `n_items`, which
-    # is the total numbe of items across all components.
-
+def connected_components_(components: Iterable[np.ndarray], n_items: int, n_components: int) -> List[List[int]]:
     item_markers = np.full(n_items, -1)
     component_markers = np.arange(n_components)
 
@@ -49,14 +43,10 @@ def connected_components_(components: Iterable[np.ndarray], n_items: int, n_comp
         _internal(item_markers, component_markers, i, component_items)
 
     groups = defaultdict(list)
-    # Each element is a list of component indices;
-    # these components are connected.
     for i, mark in enumerate(component_markers):
         if mark != i:
-            k = component_markers[mark]
-            while k != mark:
+            while (k := component_markers[mark]) != mark:
                 mark = k
-                k = component_markers[mark]
         groups[mark].append(i)
 
     return list(groups.values())
@@ -66,9 +56,14 @@ def connected_components(components, n_items):
     components = [c if isinstance(c, np.ndarray) else np.array(c) for c in components]
     cc = connected_components_(components, n_items, len(components))
 
+    # return [
+    #         set(itertools.chain.from_iterable(
+    #             (components[idx] for idx in c)))
+    #         for c in cc
+    #         ]
+
     return [
-            set(itertools.chain.from_iterable(
-                (components[idx] for idx in c)))
+            np.unique(np.concatenate([components[idx] for idx in c]))
             for c in cc
             ]
 
