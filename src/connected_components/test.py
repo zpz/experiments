@@ -1,7 +1,6 @@
 import numpy as np
 import cc_nx
 import cc_py
-import cc_np
 import cc_numba
 
 
@@ -51,7 +50,6 @@ if __name__ == '__main__':
     intro_nx()
     check_nx()
     check_py(cc_py)
-    check_py(cc_np)
     check_py(cc_numba)
 
 

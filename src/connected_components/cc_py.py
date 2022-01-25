@@ -1,5 +1,5 @@
 from collections import defaultdict
-from typing import List, Iterable, Sequence
+from typing import Iterable, Sequence
 
 
 def _internal(components: Iterable[Iterable[int]], n_items:int, n_components: int):

@@ -3,7 +3,6 @@ import time
 import numpy as np
 import cc_nx
 import cc_py
-import cc_np
 import cc_numba
 
 
@@ -31,10 +30,10 @@ def bench(mod, n_items, repeats=10):
 if __name__ == '__main__':
     from argparse import ArgumentParser
     parser = ArgumentParser()
-    parser.add_argument('mod', choices=['py', 'np', 'nu'])
+    parser.add_argument('mod', choices=['py', 'nu'])
     args = parser.parse_args()
 
-    mod = {'py': cc_py, 'np': cc_np, 'nu': cc_numba}[args.mod] 
-    for n_items in (100, 1000, 10000, 100000, 1000000):
+    mod = {'py': cc_py, 'nu': cc_numba}[args.mod] 
+    for n_items in (1000, 10000, 100000, 1000000):
         bench(mod, n_items)
 

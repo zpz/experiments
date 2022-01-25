@@ -1,6 +1,4 @@
-import itertools
-from collections import defaultdict
-from typing import List, Iterable, Sequence
+from typing import Sequence
 
 import numba
 import numpy as np
@@ -56,7 +54,7 @@ def connected_components(components: Sequence[Sequence[int]], n_items: int):
     item_markers = component_markers[item_markers]
 
     return [
-            np.where(item_markers == v)[0]
-            for v in np.unique(component_markers)
+            np.where(item_markers == grp)[0]
+            for grp in np.unique(component_markers)
             ]
 
