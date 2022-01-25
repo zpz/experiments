@@ -1,6 +1,6 @@
 import itertools
 from collections import defaultdict
-from typing import List, Iterable
+from typing import List, Iterable, Sequence
 
 import numba
 import numpy as np
@@ -15,55 +15,48 @@ import numpy as np
 def _internal(
         item_markers: np.ndarray,
         component_markers: np.ndarray,
-        idx_component: int,
+        i_component: int,
         component_items: np.ndarray,
         ):
-    i = idx_component
-    for it in component_items:
-        j = item_markers[it]
-        if j < 0:
-            item_markers[it] = i
+    for item in component_items:
+        j_component = item_markers[item]
+
+        if j_component < 0:
+            item_markers[item] = i_component
         else:
-            k = component_markers[j]
-            if k == i:
+            if component_markers[j_component] == i_component:
                 continue
+
             while True:
-                component_markers[j] = i
-                if k == j:
+                k_group = component_markers[j_component]
+                component_markers[j_component] = i_component
+                if k_group == j_component:
                     break
-                j = k
-                k = component_markers[j]
+                j_component = k_group
 
 
-def connected_components_(components: Iterable[np.ndarray], n_items: int, n_components: int) -> List[List[int]]:
+def connected_components(components: Sequence[Sequence[int]], n_items: int):
+    components = [
+            c if isinstance(c, np.ndarray) else np.array(c)
+            for c in components
+            ]
+    n_components = len(components)
+
     item_markers = np.full(n_items, -1)
     component_markers = np.arange(n_components)
 
     for i, component_items in enumerate(components):
         _internal(item_markers, component_markers, i, component_items)
 
-    groups = defaultdict(list)
-    for i, mark in enumerate(component_markers):
-        if mark != i:
-            while (k := component_markers[mark]) != mark:
-                mark = k
-        groups[mark].append(i)
+    for i in reversed(range(n_components - 1)):
+        if (k := component_markers[i]) != i:
+            component_markers[i] = component_markers[k]
 
-    return list(groups.values())
-
-
-def connected_components(components, n_items):
-    components = [c if isinstance(c, np.ndarray) else np.array(c) for c in components]
-    cc = connected_components_(components, n_items, len(components))
-
-    # return [
-    #         set(itertools.chain.from_iterable(
-    #             (components[idx] for idx in c)))
-    #         for c in cc
-    #         ]
+    item_markers = item_markers[item_markers >= 0]
+    item_markers = component_markers[item_markers]
 
     return [
-            np.unique(np.concatenate([components[idx] for idx in c]))
-            for c in cc
+            np.where(item_markers == v)[0]
+            for v in np.unique(component_markers)
             ]
 

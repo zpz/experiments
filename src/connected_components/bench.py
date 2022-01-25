@@ -1,6 +1,7 @@
 import math
 import random
 import time
+import numpy as np
 import cc_nx
 import cc_numba
 
@@ -10,7 +11,10 @@ def bench(n_items, repeats=1):
     for _ in range(repeats):
         n_components = int(math.sqrt(n_items))
         component_size = int(n_items / n_components * 0.8)
-        components = [random.sample(population, component_size) for _ in range(n_components)]
+        components = [
+                np.random.choice(n_items, component_size, replace=False)
+                for _ in range(n_components)
+                ]
 
         t0 = time.perf_counter()
         _ = cc_numba.connected_components(components, n_items)

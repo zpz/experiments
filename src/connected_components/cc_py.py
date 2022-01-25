@@ -1,9 +1,8 @@
-import itertools
 from collections import defaultdict
-from typing import List, Iterable
+from typing import List, Iterable, Sequence
 
 
-def _internal(components: Iterable[Iterable[int]], n_items:int, n_components: int) -> List[int]:
+def _internal(components: Iterable[Iterable[int]], n_items:int, n_components: int):
     # Each component is a sequence of items.
     # The items are represented by their indices in the entire set of items
     # across all components, hence all the elements in `components`
@@ -101,36 +100,28 @@ def _internal(components: Iterable[Iterable[int]], n_items:int, n_components: in
                     # follow the chain to update that of `k_group`.
                     j_component = k_group
 
-    return component_markers
-
-
-def connected_components_(components: Iterable[Iterable[int]], n_items: int, n_components: int):
-    component_markers = _internal(components, n_items, n_components)
-
-    groups = defaultdict(list)
-    # Each element is a list of component indices;
-    # these components are connected.
-
-    for i, mark in enumerate(component_markers):
-        if mark != i:
+    # Now `component_markers` contains the group ID of each component
+    # directly or indirectly. The next block makes them all direct.
+    for i in reversed(range(n_components)):
+        if (k := component_markers[i]) != i:
             # Now it must be that `mark > i`, indicating
             # that the component `i` shares a group
             # with component `mark`. We follow this chain
             # to get the group ID.
-            while (k := component_markers[mark]) != mark:
-                mark = k
+            component_markers[i] = component_markers[k]
 
-        groups[mark].append(i)
+    return item_markers, component_markers
+
+
+def connected_components(components: Sequence[Sequence[int]], n_items: int):
+    n_components = len(components)
+    _, component_markers = _internal(components, n_items, n_components)
+
+    groups = defaultdict(set)
+    # Item IDs in each group, indexed by group ID.
+
+    for i_comp, i_grp in enumerate(component_markers):
+        groups[i_grp].update(components[i_comp])
 
     return list(groups.values())
-
-
-def connected_components(components: List[List[int]], n_items):
-    cc = connected_components_(components, n_items, len(components))
-
-    return [
-            set(itertools.chain.from_iterable(
-                (components[idx] for idx in c)))
-            for c in cc
-            ]
 
