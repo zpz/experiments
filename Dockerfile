@@ -29,5 +29,5 @@ RUN pip-install \
 
 RUN pip-install networkx
 
-RUN pip-install line-profiler zpz
+RUN pip-install zpz
 
