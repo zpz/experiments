@@ -50,8 +50,8 @@ def connected_components(components: Sequence[Sequence[int]], n_items: int):
         if (k := component_markers[i]) != i:
             component_markers[i] = component_markers[k]
 
-    item_markers = item_markers[item_markers >= 0]
-    item_markers = component_markers[item_markers]
+    idx = item_markers >= 0
+    item_markers[idx] = component_markers[item_markers[idx]]
 
     return [
             np.where(item_markers == grp)[0]
